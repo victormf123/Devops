@@ -1,0 +1,10 @@
+image:
+  tag: 0.1.8-staging
+
+replicas: 2
+
+container:
+  port: 80
+
+service:  
+  nodePort: 30888
