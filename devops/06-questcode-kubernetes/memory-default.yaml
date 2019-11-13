@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: LimitRange
 metadata:
-  name: jenkins
+ name: mem-limit-range
 spec:
-  limits:
-  - default:
-      memory: 2Gi
-    defaultRequest:
-      memory: 2Gi
-    type: Container
+ limits:
+ - default:
+     memory: 6144Mi
+   defaultRequest:
+     memory: 2048Mi
+   type: Container
