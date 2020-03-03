@@ -30,4 +30,4 @@ spec:
       cpu: 2048m
       memory: 7680Mi
     requests:
-      storage: 6Gi
+      storage: 150ki
