@@ -30,4 +30,5 @@ spec:
     requests:
       cpu: 2048m
       memory: 7680Mi
-      ephemeral-storage: "140Ki"
+      ephemeral-storage: "150Ki"
+      storage: 150ki
