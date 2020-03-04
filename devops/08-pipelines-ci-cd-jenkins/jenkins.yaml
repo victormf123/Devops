@@ -1,16 +1,1 @@
-apiVersion: v1
-kind: Pod
-metadata:
-  name: jenkins
-spec:
-  containers:
-  - name: jenkins
-    resources:
-      requests:
-        cpu: "1024m"
-        memory: "4096Mi"
-        ephemeral-storage: "150Ki"
-      limits:
-        cpu: "3072m"
-        memory: "14336Mi" 
-        ephemeral-storage: "300Ki"
+{requests: {cpu: 1024m, memory: 4096Mi, ephemeral-storage: 150Ki}, limits: {cpu: 3072m, memory: 14336Mi, ephemeral-storage: 300Ki}}
