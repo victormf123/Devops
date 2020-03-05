@@ -135,13 +135,12 @@ spec:
         name: copy-default-config
         resources:
           limits:
-            cpu: "3"
+            cpu: 3072Mi
             memory: 14336Mi
-            ephemeral-storage: 200Ki
           requests:
-            cpu: "2"
+            cpu: 2048Mi
             memory: 4096Mi
-            ephemeral-storage: 150Ki
+            ephemeral-storage: 3Gi
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
