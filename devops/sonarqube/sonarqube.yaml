@@ -1,0 +1,162 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2019-11-21T17:40:00Z"
+  generation: 1
+  labels:
+    app: sonarqube
+    chart: sonarqube-3.2.5
+    heritage: Tiller
+    release: sonar
+  name: sonar-sonarqube
+  namespace: devops
+  resourceVersion: "9953925"
+  selfLink: /apis/apps/v1/namespaces/devops/deployments/sonar-sonarqube
+  uid: 60f2a2e3-efb9-40b9-93a5-8cb082973a13
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: sonarqube
+      release: sonar
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: sonarqube
+        release: sonar
+    spec:
+      containers:
+      - env:
+        - name: SONARQUBE_JDBC_USERNAME
+          value: postgres
+        - name: SONARQUBE_JDBC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: postgres-password
+              name: sonar-sonarqube
+        - name: SONARQUBE_JDBC_URL
+          value: jdbc:postgresql://10.102.136.77:5432/sonardb
+        image: sonarqube:7.9.1-community
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /sessions/new
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: sonarqube
+        ports:
+        - containerPort: 9000
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 6
+          httpGet:
+            path: /sessions/new
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources: 
+            limits:
+                ephemeral-storage: 2Gi
+            requests:
+                ephemeral-storage: 1Gi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /opt/sonarqube/data
+          name: sonarqube
+          subPath: data
+        - mountPath: /opt/sonarqube/extensions/plugins/tmp
+          name: sonarqube
+          subPath: tmp
+        - mountPath: /opt/sonarqube/extensions/downloads
+          name: sonarqube
+          subPath: downloads
+        - mountPath: /opt/sonarqube/extensions/plugins
+          name: sonarqube
+          subPath: plugins
+        - mountPath: /opt/sonarqube/temp
+          name: sonarqube
+          subPath: temp
+        - mountPath: /opt/sonarqube/logs
+          name: sonarqube
+          subPath: logs
+        - mountPath: /tmp
+          name: tmp-dir
+        - mountPath: /tmp/scripts
+          name: copy-plugins
+      dnsPolicy: ClusterFirst
+      initContainers:
+      - command:
+        - sysctl
+        - -w
+        - vm.max_map_count=262144
+        image: busybox:1.31
+        imagePullPolicy: IfNotPresent
+        name: init-sysctl
+        resources: {}
+        securityContext:
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 999
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: install_plugins.sh
+            path: install_plugins.sh
+          name: sonar-sonarqube-install-plugins
+        name: install-plugins
+      - configMap:
+          defaultMode: 493
+          items:
+          - key: copy_plugins.sh
+            path: copy_plugins.sh
+          name: sonar-sonarqube-copy-plugins
+        name: copy-plugins
+      - emptyDir: {}
+        name: sonarqube
+      - emptyDir: {}
+        name: tmp-dir
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2019-11-21T17:40:00Z"
+    lastUpdateTime: "2019-11-21T17:41:11Z"
+    message: ReplicaSet "sonar-sonarqube-566b5c7844" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2020-03-05T16:55:46Z"
+    lastUpdateTime: "2020-03-05T16:55:46Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
