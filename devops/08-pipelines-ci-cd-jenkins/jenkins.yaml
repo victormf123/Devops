@@ -97,11 +97,11 @@ spec:
           timeoutSeconds: 5
         resources:
           limits:
-            cpu: "3"
+            cpu: 3072m
             ephemeral-storage: 3Gi
             memory: 12Gi
           requests:
-            cpu: "2"
+            cpu: 2048m
             ephemeral-storage: 1Gi
             memory: 4Gi
         terminationMessagePath: /dev/termination-log
