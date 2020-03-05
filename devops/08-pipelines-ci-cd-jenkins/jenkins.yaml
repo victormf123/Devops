@@ -97,11 +97,11 @@ spec:
           timeoutSeconds: 5
         resources:
           limits:
-            cpu: 3072m
+            cpu: 4096m
             ephemeral-storage: 3Gi
             memory: 12Gi
           requests:
-            cpu: 2048m
+            cpu: 3072m
             ephemeral-storage: 1Gi
             memory: 4Gi
         terminationMessagePath: /dev/termination-log
@@ -139,10 +139,10 @@ spec:
         name: copy-default-config
         resources:
           limits:
-            cpu: 3072m
+            cpu: "2"
             memory: 4Gi
           requests:
-            cpu: 2048m
+            cpu: 50m
             memory: 256Mi
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
