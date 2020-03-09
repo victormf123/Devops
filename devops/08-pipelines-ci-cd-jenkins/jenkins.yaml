@@ -97,7 +97,7 @@ spec:
           limits:
             cpu: "2"
             memory: 4Gi
-            ephemeral-storage: "208Ki"
+            ephemeral-storage: "1Gi"
           requests:
             cpu: 50m
             memory: 256Mi
@@ -139,7 +139,7 @@ spec:
           limits:
             cpu: "2"
             memory: 4Gi
-            ephemeral-storage: "208Ki"
+            ephemeral-storage: "1Gi"
           requests:
             cpu: 50m
             memory: 256Mi
