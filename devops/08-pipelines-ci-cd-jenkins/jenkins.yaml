@@ -139,9 +139,11 @@ spec:
           limits:
             cpu: "2"
             memory: 4Gi
+            ephemeral-storage: 208Ki
           requests:
             cpu: 50m
             memory: 256Mi
+            ephemeral-storage: 104Ki
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
