@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ResourceQuotas
+metadata:
+    name: damo
+spec:
+    hard: 
+        requests.cpu: 512m
+        requests.memory: 512Mi
+        requests.ephemeral-storage: 1Gi
+        limits.cpu: 1024m
+        limits.memory: 1024Mi
+        limits.ephemeral-storage: 2Gi
+
