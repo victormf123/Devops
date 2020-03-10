@@ -10,7 +10,7 @@ metadata:
     name: tiller
   name: tiller-deploy
   namespace: kube-system
-  resourceVersion: "10251122"
+  resourceVersion: "10251792"
   selfLink: /apis/apps/v1/namespaces/kube-system/deployments/tiller-deploy
   uid: e8f5c49e-530f-4e95-a60b-b0fe1da34113
 spec:
@@ -85,6 +85,7 @@ spec:
       serviceAccountName: tiller
       terminationGracePeriodSeconds: 30
 status:
+  availableReplicas: 1
   conditions:
   - lastTransitionTime: "2019-11-21T14:56:36Z"
     lastUpdateTime: "2019-11-21T14:56:40Z"
@@ -92,13 +93,13 @@ status:
     reason: NewReplicaSetAvailable
     status: "True"
     type: Progressing
-  - lastTransitionTime: "2020-03-10T18:41:44Z"
-    lastUpdateTime: "2020-03-10T18:41:44Z"
-    message: Deployment does not have minimum availability.
-    reason: MinimumReplicasUnavailable
-    status: "False"
+  - lastTransitionTime: "2020-03-10T18:48:36Z"
+    lastUpdateTime: "2020-03-10T18:48:36Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
     type: Available
   observedGeneration: 1
+  readyReplicas: 1
   replicas: 1
-  unavailableReplicas: 1
   updatedReplicas: 1
