@@ -1,3 +1,4 @@
+---
 kind: PersistentVolume
 apiVersion: v1
 metadata:
@@ -7,7 +8,7 @@ metadata:
 spec:
   storageClassName: manual-for-jenkins
   capacity:
-    storage: 6Gi
+    storage: 16Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
@@ -23,12 +24,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   resources:
-    limits:
-      cpu: 3072m
-      memory: 13312Mi
-      ephemeral-storage: "300Ki"
     requests:
-      cpu: 2048m
-      memory: 7680Mi
-      ephemeral-storage: "150Ki"
-      storage: 150ki
+      storage: 16Gi
