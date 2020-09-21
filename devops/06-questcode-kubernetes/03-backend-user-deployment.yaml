@@ -1,35 +1,72 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: backend-user
-  labels:
-    app: backend-user
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: backend-user
-  template:
-    metadata:
-      labels:
-        app: backend-user
-    spec:
-      containers:
-      - name: backend-user
-        image: rodrigogrohl/questcode-backend-user:0.1.2
-        ports:
-        - containerPort: 3020
-        env:
-        - name: NODE_ENV
-          valueFrom:
-            configMapKeyRef:
-              name: questcode
-              key: NODE_ENV
-        - name: MONGO_URI
-          #value: "mongodb://dbuser:dbuser18@ds231133.mlab.com:31133/suaaplicacao-dev"
-          valueFrom:
-              secretKeyRef:
-                name: questcode
-                key: MONGO_URI
-        - name: SECRET_OR_KEY
-          value: "b00tc4mp18"
+---
+  apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: mongo-pvc
+    namespace: devops
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    storageClassName: longhorn
+    resources:
+      requests:
+        storage: 3Gi
+
+---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    namespace: devops
+    creationTimestamp: null
+    name: mongo
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        service: mongo
+    strategy: {}
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          service: mongo
+      spec:
+        containers:
+        - image: mongo:4.4.1
+          # Repositório oficial - mongo:3
+          name: mongo
+          resources: {}
+          
+          volumeMounts:
+          - name: mongodb-volume
+            mountPath: /data/db
+  
+        restartPolicy: Always
+  
+        volumes:
+        - name: mongodb-volume
+          persistentVolumeClaim:
+            claimName: mongo-pvc
+  status: {}
+  
+  
+  
+  ---
+  apiVersion: v1
+  kind: Service
+  metadata:
+    namespace: devops
+    creationTimestamp: null
+    labels:
+      service: mongo
+    name: mongo
+  spec:
+    clusterIP: None
+    ports:
+    - name: headless
+      port: 27017
+      targetPort: 0
+    selector:
+      service: mongo
+  status:
+    loadBalancer: {}
