@@ -17,7 +17,7 @@ metadata:
   namespace: kube-system
 subjects:
 - kind: Group
-  name: system:serviceaccount:devops:default
+  name: system:serviceaccount
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role
